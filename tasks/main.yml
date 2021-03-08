@@ -1,0 +1,67 @@
+---
+############################################
+- name : 'Instaling git and python packages'
+  yum :
+    name: '{{ item }}' 
+    state: 'present'
+    update_cache: true
+  loop: 
+    - git
+    - python-pip
+    - python3
+
+- name : 'Updateing installed python packages'
+  apt:
+    update_cache : true
+
+- name : 'Instaling python3-dev and mysqlclinet'
+  apt:
+    name: '{{ item }}' 
+    state: 'present'
+    update_cache: true
+  loop: 
+    - python3-dev
+    - libmysqlclient-dev
+    - default-libmysqlclient-dev
+###########APP DEPLOYMENT######################  
+- name : 'Cloning the apliaction repo'
+  git:
+    repo: '{{ dest_app_repo }}'
+    dest: '{{ dest_app }}'
+    update: false
+##############REQ##################
+- name : 'Installing  requirements'
+  pip: 
+    requirements: '{{ app_req }}'
+
+- name : 'Installing  msyqclient'
+  pip: 
+    name: 'mysqlclient'
+#################TEMPLETE############################
+
+- name : 'Creating Settings.py with templete'
+  template: 
+    src: 'settings.j2'
+    dest: '/opt//django_app/notejam/notejam/settings.py'
+    owner: 'root'
+    group: 'root'
+    mode: '0644'
+
+##################SYSTEMD##################
+- name : 'Create Systemd service for Django app'
+  copy:
+    src: 'django.service'
+    dest: '{{ dest_systemd }}'
+    owner: 'root'
+    group: 'root'
+  
+- name: 'SystemD Daemon-reload'
+  systemd:
+    daemon_reload: true
+
+
+- name : 'Start django.service'
+  systemd:
+    name: 'django.service'
+    state: 'started'
+    enabled: true

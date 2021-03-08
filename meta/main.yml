@@ -1,0 +1,15 @@
+---
+
+galaxy_info:
+  role_name: 'ansible-role-django-app'
+  author: 'Sargis Hayrapetyan <sargis1177@gmail.com>'
+  license: 'Proprietary'
+  description: 'Ansible role for custom Django app'
+  min_ansible_version: '2.9'
+  platforms:
+    - name: 'Ubuntu'
+      versions:
+        - 'bionic'
+  galaxy_tags:
+    - 'development'
+    - 'django'

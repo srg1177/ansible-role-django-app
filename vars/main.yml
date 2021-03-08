@@ -1,0 +1,13 @@
+---
+
+app_req         : '/opt/django_app/requirements.txt'
+dest_app_repo   : 'https://github.com/srg1177/django_app.git'
+dest_app        : '/opt/django_app'
+dest_systemd    : '/etc/systemd/system'
+###############SETTINGS.PY#################
+db_engine       : 'django.db.backends.mysql'
+db_name         : 'django_db'
+db_username     : 'djangouser'
+db_password     : 'djangouser!1'
+host_dns        : 'localsomething'
+db_port         : '3306'
